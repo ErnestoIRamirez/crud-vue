@@ -15,7 +15,8 @@ class ThoughtController extends Controller
      */
     public function index()
     {
-        //
+        $thought = Thought::where('user_id', Auth::user()->id)->get();
+        return $thought;
     }
 
     /**
@@ -53,7 +54,7 @@ class ThoughtController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -74,9 +75,13 @@ class ThoughtController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $thought = Thought::find($request->id);
+        $thought->description = $request->description;
+        $thought->save();
+
+        return $thought;
     }
 
     /**
@@ -85,8 +90,10 @@ class ThoughtController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $thought = Thought::find($request->id);
+        $thought->delete();
+        return "Eliminado";
     }
 }

@@ -30,17 +30,14 @@
                 const params = {
                     description: this.description
                 }
+                this.description = '';
                 var urlStore = route('thoughts.store');
                 axios.post(urlStore, params).then(
-                    response => {console.log(response)}
+                    (response) => {
+                        const thought = response.data;
+                        this.$emit('new', thought);
+                    }
                 );
-                let thought = {
-                    'id': 2,
-                    'description': this.description, 
-                    'created_at': '27/12/2019'
-                }
-                this.$emit('new', thought);
-                this.description = '';
             }
         }
     }

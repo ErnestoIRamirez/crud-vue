@@ -1791,20 +1791,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     newThought: function newThought() {
+      var _this = this;
+
       var params = {
         description: this.description
       };
+      this.description = '';
       var urlStore = route('thoughts.store');
       axios.post(urlStore, params).then(function (response) {
-        console.log(response);
+        var thought = response.data;
+
+        _this.$emit('new', thought);
       });
-      var thought = {
-        'id': 2,
-        'description': this.description,
-        'created_at': '27/12/2019'
-      };
-      this.$emit('new', thought);
-      this.description = '';
     }
   }
 });
@@ -1840,15 +1838,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      thoughts: [{
-        'id': 1,
-        'description': 'abc',
-        'create_at': '27/07/1995'
-      }]
+      thoughts: []
     };
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    var _this = this;
+
+    var urlIndex = route('thoughts');
+    axios.get(urlIndex).then(function (response) {
+      _this.thoughts = response.data;
+    });
+    console.log('Aqui ya cargo el componente.');
   },
   methods: {
     addThought: function addThought(thought) {
@@ -1901,14 +1901,33 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onClickDelete: function onClickDelete() {
-      this.$emit('delete');
+      var _this = this;
+
+      var params = {
+        id: this.thought.id
+      };
+      var urlDelete = route('thoughts.delete');
+      axios.post(urlDelete, params).then(function (response) {
+        _this.$emit('delete');
+      });
     },
     onClickEdit: function onClickEdit() {
       this.editMode = true;
     },
     onClickUpdate: function onClickUpdate() {
-      this.editMode = false;
-      this.$emit('update', thought);
+      var _this2 = this;
+
+      var params = {
+        id: this.thought.id,
+        description: this.thought.description
+      };
+      var urlUpdate = route('thoughts.update');
+      axios.post(urlUpdate, params).then(function (response) {
+        _this2.editMode = false;
+        var thought = response.data;
+
+        _this2.$emit('update', thought);
+      });
     }
   }
 });
@@ -37350,7 +37369,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _c("div", { staticClass: "card-header" }, [
-      _vm._v("Publicado en " + _vm._s(_vm.thought.create_at))
+      _vm._v(
+        "Publicado en " +
+          _vm._s(_vm.thought.created_at) +
+          " - Última actualización " +
+          _vm._s(_vm.thought.updated_at)
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
@@ -49887,8 +49911,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\eramirez\Documents\www\my-thoughts\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\eramirez\Documents\www\my-thoughts\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\eramirez\Documents\www\crud-vue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\eramirez\Documents\www\crud-vue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

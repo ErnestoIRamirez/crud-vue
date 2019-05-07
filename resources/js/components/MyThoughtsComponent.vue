@@ -19,15 +19,15 @@
     export default {
         data() {
             return {
-                thoughts: [{
-                    'id': 1,
-                    'description': 'abc',
-                    'create_at': '27/07/1995' 
-                }]
+                thoughts: []
             };
         },
         mounted() {
-            console.log('Component mounted.')
+            var urlIndex = route('thoughts');
+            axios.get(urlIndex).then((response) => {
+                this.thoughts = response.data;
+            });
+            console.log('Aqui ya cargo el componente.')
         },
 
         methods: {

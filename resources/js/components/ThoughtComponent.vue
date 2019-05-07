@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <div class="card-header">Publicado en {{ thought.create_at }}</div>
+        <div class="card-header">Publicado en {{ thought.created_at }} - Última actualización {{ thought.updated_at }}</div>
         <div class="card-body">
             <input v-if="editMode" type="text" class="form-control" v-model="thought.description">
             <p v-else>{{ thought.description }}</p>
@@ -26,7 +26,13 @@
         },
         methods: {
             onClickDelete() {
+                const params = {
+                    id:this.thought.id,
+                }
+                var urlDelete = route('thoughts.delete');
+                axios.post(urlDelete, params).then((response) => {
                 this.$emit('delete');
+                })
             }, 
 
             onClickEdit() {
@@ -34,8 +40,16 @@
             },
 
             onClickUpdate() {
+                const params = {
+                    id:this.thought.id,
+                    description: this.thought.description
+                }
+                var urlUpdate = route('thoughts.update');
+                axios.post(urlUpdate, params).then((response) => {
                 this.editMode = false;
+                const thought = response.data;
                 this.$emit('update', thought);
+                })
             }
         }
     }
