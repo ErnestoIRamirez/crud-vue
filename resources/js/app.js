@@ -9,6 +9,16 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
+import VueSwal from 'vue-swal'
+ 
+Vue.use(VueSwal)
+Vue.use(BootstrapVue)
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,8 +31,10 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('thought-component', require('./components/ThoughtComponent.vue').default);
+Vue.component('table-component', require('./components/TableComponent.vue').default);
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('my-thoughts-component', require('./components/MyThoughtsComponent.vue').default);
+Vue.component('formulario-component', require('./components/FormularioComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

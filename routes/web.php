@@ -18,7 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home-formulario', 'HomeController@show')->name('home.formulario');
 Route::get('thoughts', 'ThoughtController@index')->name('thoughts');
 Route::post('thoughts-store', 'ThoughtController@store')->name('thoughts.store');
 Route::post('thoughts-update', 'ThoughtController@update')->name('thoughts.update');
 Route::post('thoughts-delete', 'ThoughtController@destroy')->name('thoughts.delete');
+
+Route::resource('users', 'UserController');
+Route::get('datatable', 'UserController@show')->name('datatable');
+
+Route::resource('personas', 'PersonaController');
