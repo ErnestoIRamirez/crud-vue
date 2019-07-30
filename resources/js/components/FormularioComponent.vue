@@ -56,15 +56,15 @@
                 documentos: null,
                 check: [],
                 sexoSelect: [
-                    { value: null, text: 'Selecciona un animal' },
-                    { value: 0, text: 'Hombre' },
-                    { value: 1, text: 'Mujer' },
-                    { value: 2, text: 'Sin especificar' }
+                    { value: null, text: 'Selecciona un sexo' },
+                    { value: 1, text: 'Hombre' },
+                    { value: 2, text: 'Mujer' },
+                    { value: 3, text: 'Sin especificar' }
                 ],
                 documentosRadio: [
-                    { value: 0, text: 'Licencia de conducir' },
-                    { value: 1, text: 'IFE' },
-                    { value: 2, text: 'Cartilla militar'}
+                    { value: 1, text: 'Licencia de conducir' },
+                    { value: 2, text: 'IFE' },
+                    { value: 3, text: 'Cartilla militar'}
                 ]
             }
         },
@@ -93,9 +93,16 @@
 
         methods: {
             newPerson(scope) {
-                this.$validator.validateAll(scope).then((result) => {
-                    if (result) {
+                // this.$validator.validateAll(scope).then((result) => {
+                    // if (result) {
                         // var urlStore = route('personas');
+                        const params = {
+                            nombre: this.nombre,
+                            primer_ap: this.primerap,
+                            segundo_ap: this.segundoap,
+                            sexo: this.sexo,
+                            documento: this.check
+                        }
                         axios.post('personas', params).then(
                             (response) => {
                                 // const thought = response.data;
@@ -104,22 +111,16 @@
 
                             }
                         );
-                    } else {
+                    // } else {
                         swal({
                             title: '¡Aún no es posible guardar!',
                             text: 'Ingrese los campos obligatorios',
                             type: 'warning',
                             confirmButtonText: 'Entendido'
                         })
-                    }
-                });
-                const params = {
-                    nombre: this.nombre,
-                    primer_ap: this.primerap,
-                    segundo_ap: this.segundoap,
-                    sexo: this.sexo,
-                    documento: this.check
-                }
+                    // }
+                // });
+                
                 
             },
         }

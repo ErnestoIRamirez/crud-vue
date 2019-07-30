@@ -1876,25 +1876,25 @@ __webpack_require__.r(__webpack_exports__);
       check: [],
       sexoSelect: [{
         value: null,
-        text: 'Selecciona un animal'
-      }, {
-        value: 0,
-        text: 'Hombre'
+        text: 'Selecciona un sexo'
       }, {
         value: 1,
-        text: 'Mujer'
+        text: 'Hombre'
       }, {
         value: 2,
+        text: 'Mujer'
+      }, {
+        value: 3,
         text: 'Sin especificar'
       }],
       documentosRadio: [{
-        value: 0,
+        value: 1,
         text: 'Licencia de conducir'
       }, {
-        value: 1,
+        value: 2,
         text: 'IFE'
       }, {
-        value: 2,
+        value: 3,
         text: 'Cartilla militar'
       }]
     };
@@ -1922,23 +1922,9 @@ __webpack_require__.r(__webpack_exports__);
     newPerson: function newPerson(scope) {
       var _this = this;
 
-      this.$validator.validateAll(scope).then(function (result) {
-        if (result) {
-          // var urlStore = route('personas');
-          axios.post('personas', params).then(function (response) {
-            // const thought = response.data;
-            // this.$emit('new', thought);
-            _this.$swal('Hello word!', 'error', 'warning');
-          });
-        } else {
-          swal({
-            title: '¡Aún no es posible guardar!',
-            text: 'Ingrese los campos obligatorios',
-            type: 'warning',
-            confirmButtonText: 'Entendido'
-          });
-        }
-      });
+      // this.$validator.validateAll(scope).then((result) => {
+      // if (result) {
+      // var urlStore = route('personas');
       var params = {
         nombre: this.nombre,
         primer_ap: this.primerap,
@@ -1946,6 +1932,19 @@ __webpack_require__.r(__webpack_exports__);
         sexo: this.sexo,
         documento: this.check
       };
+      axios.post('personas', params).then(function (response) {
+        // const thought = response.data;
+        // this.$emit('new', thought);
+        _this.$swal('Hello word!', 'error', 'warning');
+      }); // } else {
+
+      swal({
+        title: '¡Aún no es posible guardar!',
+        text: 'Ingrese los campos obligatorios',
+        type: 'warning',
+        confirmButtonText: 'Entendido'
+      }); // }
+      // });
     }
   }
 });

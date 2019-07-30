@@ -18,13 +18,12 @@ class CreatePersonaTable extends Migration
             $table->string('nombre');
             $table->string('primer_ap');
             $table->string('segundo_ap');
-            $table->integer('sexo')->unsigned();
-            $table->integer('documentos_id')->unsigned();
+            $table->integer('sexo_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('documentos_id')->references('id')->on('documentos');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('sexo_id')->references('id')->on('cat_sexo');
         });
     }
 

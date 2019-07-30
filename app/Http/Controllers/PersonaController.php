@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Persona;
 use App\Documentos;
+use Illuminate\Support\Facades\Auth;
 
 class PersonaController extends Controller
 {
@@ -16,7 +17,7 @@ class PersonaController extends Controller
      */
     public function index()
     {
-        //
+        return view('consumeApi');
     }
 
     /**
@@ -39,21 +40,25 @@ class PersonaController extends Controller
     {
         DB::beginTransaction();
         try {
-            $documentos = new Documentos;
-            $documentos->id_documento = 0;
-
-            if ($documentos->save()) {
                 $persona = new Persona;
-                $persona->nombre = 0;
-                $persona->primer_ap = 0;
-                $persona->segundo_ap = 0;
-                $persona->sexo = 0;
-                $persona->documentos_id = 0;
-                $persona->save();
-            }
+                $persona->nombre = $request->nombre;
+                $persona->primer_ap = $request->primer_ap;
+                $persona->segundo_ap = $request->segundo_ap;
+                $persona->sexo_id = $request->sexo;
+                $persona->user_id = Auth::user()->id;
+                if ($persona->save()) {
+                    foreach ($request->documento as $documento) {
+                        $documentos = new Documentos;
+                        $documentos->id_documento = $documento;
+                        $documentos->id_persona = $persona->id;
+                        $documentos->user_id = Auth::user()->id;
+                        $documentos->save();
+                    }
+                }
+
             DB::commit();
             return response()->json(['response' => 'success', 'status' => 1],200);
-        } catch (\Throwable $th) {
+        } catch (\PDOException $th) {
             DB::rollback();
             return response()->json(['response' => 'success', 'status' => 3, 'error' => $th],200);
         }
